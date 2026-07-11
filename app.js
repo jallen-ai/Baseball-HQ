@@ -101,7 +101,7 @@ $('#approvePending').onclick=()=>{if($('#reviewCode').value!==state.parentCode){
 $('#bonusForm').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target).entries());if(d.parentCode!==state.parentCode){alert('Incorrect parent code. Bonus XP not awarded.');return}const xpValue=bonusXPValues[d.bonusType]||0;state.bonuses=state.bonuses||[];state.bonuses.push({date:new Date().toISOString().slice(0,10),type:d.bonusType,xp:xpValue,reason:d.reason||''});save();alert(`${d.bonusType} awarded! +${xpValue} XP.`);e.target.reset();render()};
 
 $('#exerciseSelect').onchange=renderCharts;$('#combineMetricSelect').onchange=renderCharts;
-$('#exportData').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ethans-baseball-hq-backup.json';a.click()};
+$('#exportData').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='baseball-hq-backup.json';a.click()};
 $('#importData').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{state={...defaults,...JSON.parse(r.result)};save();render()}catch{alert('Could not import file')}};r.readAsText(f)};
 $('#resetData').onclick=()=>{if(confirm('Reset all saved data on this device?')){state={...defaults,daily:[],combine:[],quests:[],bonuses:[],claimedRewards:[]};save();render()}};
 
