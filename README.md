@@ -1,4 +1,4 @@
-# Baseball HQ — shared / multi-tenant build
+# Baseball HQ: shared / multi-tenant build
 
 A faithful replica of Kurt's "Ethan's Baseball HQ" prototype, re-plumbed from a
 single-device localStorage app into a **multi-tenant web app** where families or
@@ -40,7 +40,7 @@ teams sign in, share a team code, and compete on a live leaderboard.
      anonKey: "eyJhbGci..."
    };
    ```
-   The anon key is meant to live in the browser — RLS is what protects the data.
+   The anon key is meant to live in the browser: RLS is what protects the data.
 
 ### 5. Deploy
 Commit and push; GitHub Pages serves the site. Share the Pages URL with testers.
@@ -59,8 +59,8 @@ Commit and push; GitHub Pages serves the site. Share the Pages URL with testers.
   per parent, notifications, and moderation. See the sprint plan for sequencing.
 
 ## Data model (quick reference)
-- `teams(id, name, join_code)` — the tenant.
-- `athletes(user_id, team_id, display_name, state jsonb)` — one per account; `state` is
+- `teams(id, name, join_code)`: the tenant.
+- `athletes(user_id, team_id, display_name, state jsonb)`: one per account; `state` is
   the original app's blob.
-- `compute_xp(state)` / `leaderboard` view — server-side XP + workouts, RLS-scoped to team.
-- `join_team()` / `create_team_and_join()` — onboarding RPCs.
+- `compute_xp(state)` / `leaderboard` view: server-side XP + workouts, RLS-scoped to team.
+- `join_team()` / `create_team_and_join()`: onboarding RPCs.

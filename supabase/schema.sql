@@ -1,5 +1,5 @@
 -- =====================================================================
---  Baseball HQ — multi-tenant backend schema
+--  Baseball HQ: multi-tenant backend schema
 --  Paste this whole file into Supabase → SQL Editor → Run.
 --  Safe to re-run (idempotent).
 -- =====================================================================

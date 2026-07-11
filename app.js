@@ -11,7 +11,7 @@ let TEAM_ROWS=[];   // live leaderboard rows for my team
 function load(){return state;}
 let _saveTimer=null;
 function save(){
-  if(!SB||!ATHLETE) return;                 // not signed in yet — nothing to persist
+  if(!SB||!ATHLETE) return;                 // not signed in yet, nothing to persist
   clearTimeout(_saveTimer);
   _saveTimer=setTimeout(async()=>{
     const {error}=await SB.from('athletes').update({state,updated_at:new Date().toISOString()}).eq('id',ATHLETE.id);
