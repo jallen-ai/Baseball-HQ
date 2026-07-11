@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Home Run Derby — prototype</title>
+<style>
+  body{margin:0;background:radial-gradient(circle at 50% -10%,#123a63,#0c2340 60%,#081a30);
+    color:#eaf1f8;font-family:system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+  .wrap{width:100%;max-width:440px;text-align:center}
+  h1{margin:0 0 4px;font-size:1.4rem}
+  p.sub{margin:0 0 14px;color:#9db6d2;font-size:.9rem}
+  #derbyCanvas{width:100%;aspect-ratio:3/4;display:block;border-radius:14px;background:#0b1626;
+    border:2px solid rgba(255,199,44,.35);touch-action:none;cursor:crosshair}
+  .hud{display:flex;justify-content:space-between;font-weight:800;color:#ffc72c;margin:10px 2px 4px;font-size:.95rem}
+  #derbyResult{min-height:1.4em;font-weight:800;font-size:1.05rem;margin:6px 0 10px}
+  #derbyStart{background:linear-gradient(180deg,#ffd34d,#ffc72c);color:#0c2340;font-weight:900;
+    border:none;border-radius:10px;padding:13px 22px;font-size:1rem;cursor:pointer}
+  #derbyStart:disabled{opacity:.6;cursor:default}
+  .how{margin-top:16px;color:#8ba3bd;font-size:.82rem;line-height:1.5;text-align:left}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>⚾ Home Run Derby</h1>
+    <p class="sub">Behind-the-plate prototype</p>
+    <canvas id="derbyCanvas"></canvas>
+    <div class="hud"><span id="derbyPitch">Pitch 0/6</span><span id="derbyScore">0 pts</span></div>
+    <p id="derbyResult">Tap Start, then tap the ball as it crosses the zone.</p>
+    <button id="derbyStart">Start Derby</button>
+    <div class="how">
+      <strong>How to play:</strong> The pitcher throws and the ball grows as it comes at you.
+      Tap once to swing. <em>Where</em> you tap is where your bat meets the ball, <em>when</em>
+      you tap is your timing. Square it up in the middle of the zone with good timing for a home run.
+      Catch the top of the ball and you top it (grounder); get under it and you pop it up.
+    </div>
+  </div>
+  <script src="../derby.js"></script>
+</body>
+</html>

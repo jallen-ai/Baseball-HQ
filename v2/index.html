@@ -273,6 +273,7 @@
     <div class="card arcade-hero"><p class="eyebrow dark">Baseball Arcade</p><h2>Play Short. Train Smart.</h2><p>Game XP is capped at 25 per day so workouts stay the main path to advancement.</p>
       <div class="grid stats"><div class="stat"><span>Today's Game XP</span><strong id="gameXPToday">0</strong><small>of 25</small></div><div class="stat"><span>Reaction Best</span><strong id="reactionBest">—</strong><small>ms</small></div><div class="stat"><span>Strike Zone Best</span><strong id="strikeBest">0</strong><small>points</small></div><div class="stat"><span>Home Run Best</span><strong id="homerBest">0</strong><small>points</small></div></div>
     </div>
+    <div class="card game-card derby-card"><h2>Home Run Derby</h2><p>See the pitch from behind the plate. Tap to swing: where you tap is your bat, when you tap is your timing. Square it up for a homer.</p><canvas id="derbyCanvas" class="derby-canvas"></canvas><div class="derby-hud"><span id="derbyPitch">Pitch 0/6</span><span id="derbyScore">0 pts</span></div><p id="derbyResult" class="derby-result">Tap Start, then tap the ball as it crosses the zone.</p><button id="derbyStart" class="primary">Start Derby</button></div>
     <div class="arcade-grid">
       <div class="card game-card"><h2>Reaction Catch</h2><p>Tap the baseball as soon as it appears.</p><div id="reactionGame" class="game-stage"><button id="startReaction" class="primary">Start Round</button><button id="reactionBall" class="reaction-ball hidden">⚾</button><p id="reactionResult"></p></div></div>
       <div class="card game-card"><h2>Strike Zone Challenge</h2><p id="strikePrompt">Tap Start to begin.</p><button id="startStrike" class="primary">Start Challenge</button><div id="strikeZone" class="strike-zone"><button data-zone="1">1</button><button data-zone="2">2</button><button data-zone="3">3</button><button data-zone="4">4</button><button data-zone="5">5</button><button data-zone="6">6</button><button data-zone="7">7</button><button data-zone="8">8</button><button data-zone="9">9</button></div><p id="strikeResult"></p></div>
@@ -386,6 +387,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../config.js"></script>
 <script src="../app.js"></script>
+<script src="../derby.js"></script>
 <script src="v2-nav.js"></script>
 </body>
 </html>

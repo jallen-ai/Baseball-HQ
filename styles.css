@@ -863,3 +863,10 @@ footer{
 .auth-fine{font-size:.8rem;color:#8ba3bd;margin-top:14px}
 .linklike{background:none;border:none;color:#9db6d2;text-decoration:underline;cursor:pointer;margin-top:16px;font-weight:600}
 tr.me{background:rgba(255,199,44,.18);font-weight:800}
+
+/* ===== Home Run Derby arcade game ===== */
+.derby-canvas{width:100%;max-width:360px;aspect-ratio:3/4;display:block;margin:0 auto;
+  border-radius:12px;background:#0b1626;border:2px solid rgba(255,199,44,.4);touch-action:none;cursor:crosshair}
+.derby-hud{display:flex;justify-content:space-between;max-width:360px;margin:8px auto 2px;font-weight:800;color:#0c2340}
+.derby-result{min-height:1.3em;font-weight:800;text-align:center;margin:6px 0 10px}
+.derby-card{text-align:center}
