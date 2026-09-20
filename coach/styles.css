@@ -362,6 +362,7 @@ details.play-card summary::-webkit-details-marker { display: none; }
 @media (min-width: 700px) { .landing .hero { padding: 40px 36px; } }
 .landing .hero h1 { font-size: 40px; margin-top: 8px; }
 @media (min-width: 700px) { .landing .hero h1 { font-size: 56px; } }
+.landing .hero .hero-chip { background: transparent; border-color: rgba(255,255,255,.35); color: inherit; }
 .landing .hero p { margin-top: 12px; max-width: 58ch; font-size: 16px; color: rgba(243,236,220,.85); }
 .paths { display: grid; gap: 12px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .paths { grid-template-columns: repeat(3, 1fr); } }

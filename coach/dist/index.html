@@ -370,6 +370,7 @@ details.play-card summary::-webkit-details-marker { display: none; }
 @media (min-width: 700px) { .landing .hero { padding: 40px 36px; } }
 .landing .hero h1 { font-size: 40px; margin-top: 8px; }
 @media (min-width: 700px) { .landing .hero h1 { font-size: 56px; } }
+.landing .hero .hero-chip { background: transparent; border-color: rgba(255,255,255,.35); color: inherit; }
 .landing .hero p { margin-top: 12px; max-width: 58ch; font-size: 16px; color: rgba(243,236,220,.85); }
 .paths { display: grid; gap: 12px; grid-template-columns: 1fr; }
 @media (min-width: 700px) { .paths { grid-template-columns: repeat(3, 1fr); } }
@@ -1230,7 +1231,7 @@ window.COACH_DATA = (function () {
         <div class="eyebrow" style="color:rgba(243,236,220,.7)">Level Up Athletics · for coaches</div>
         <h1>Train the coach.<br>Level up the team.</h1>
         <p>Practices built for your kids' ages and what they asked to work on. A plan for every player. A lineup nobody argues about. Coaching help in the moment, not a course.</p>
-        <div class="row mt"><span class="chip gold static">${esc(S.team.name)}</span><span class="chip static" style="border-color:rgba(255,255,255,.3);color:inherit">${esc(g.label)} · ages ${esc(g.ages)}</span><span class="chip static" style="border-color:rgba(255,255,255,.3);color:inherit">${done} of ${S.players.length} player cards in</span></div>
+        <div class="row mt"><span class="chip gold static">${esc(S.team.name)}</span><span class="chip static hero-chip">${esc(g.label)} · ages ${esc(g.ages)}</span><span class="chip static hero-chip">${done} of ${S.players.length} player cards in</span></div>
       </section>
       <div class="eyebrow" style="text-align:center;margin:22px 0 10px">Choose your path</div>
       <div class="paths">
@@ -1877,7 +1878,7 @@ window.COACH_DATA = (function () {
   render();
   initAI();
   // Installable: register the service worker when served over http(s). The single-file artifact skips this.
-  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=5").catch(() => {}); } catch (e) { /* not available */ }
+  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=6").catch(() => {}); } catch (e) { /* not available */ }
 })();
 
 </script>
