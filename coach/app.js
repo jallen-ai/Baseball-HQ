@@ -245,7 +245,7 @@
             <button class="link" data-act="roadmap">About</button>
           </div>
         </header>
-        <div class="body">
+        <div class="body${isCoach && !S.coach.onboarded ? " solo" : ""}">
           ${isCoach && !S.coach.onboarded ? "" : isCoach ? `<aside class="rail"><nav class="nav" aria-label="Sections">${NAV.map((n) => `<button data-act="nav" data-view="${n.id}" aria-current="${S.view === n.id ? "page" : "false"}"><span class="ico">${n.ico}</span>${n.label}</button>`).join("")}</nav>
             <div class="rail-foot"><b>${esc(coachLevel().cur.label)}</b> · ${coachDone()}/${D.COACH_ACTIONS.length} on the call-up path<br>${esc(S.team.coachName)} · ${esc(S.team.season)}<br>${S.players.length} players · ${S.players.filter((p) => p.intakeDone).length} player cards done<br><button class="link" style="color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;margin-top:6px" data-act="reset">Reset demo data</button></div></aside>` : `<aside class="rail"><div class="eyebrow" style="padding:0 12px 8px">Players</div><nav class="nav">${S.players.map((p) => `<button data-act="pick-player" data-id="${p.id}" aria-current="${S.activePlayer === p.id ? "page" : "false"}"><span class="ico num">${p.number}</span>${esc(p.name)}${p.intakeDone ? "" : ' <span class="pill line" style="margin-left:auto">new</span>'}</button>`).join("")}</nav></aside>`}
           <main id="main">${isCoach ? (S.coach.onboarded ? renderCoach() : renderOnboarding()) : renderPlayerMode()}</main>
