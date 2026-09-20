@@ -881,5 +881,5 @@
   render();
   initAI();
   // Installable: register the service worker when served over http(s). The single-file artifact skips this.
-  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) { /* not available */ }
+  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=3").catch(() => {}); } catch (e) { /* not available */ }
 })();
