@@ -258,6 +258,22 @@ select { appearance: auto; }
 .player-card .goal { font-size: 13px; color: var(--ink-2); margin-top: 4px; font-style: italic; }
 .player-card.incomplete { border-style: dashed; }
 
+/* Team at a glance */
+.glance { display: grid; gap: 12px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .glance { grid-template-columns: repeat(3, 1fr); } }
+.glance-col { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; border-top: 5px solid var(--line-strong); }
+.glance-col.push { border-top-color: var(--warn); }
+.glance-col.balanced { border-top-color: var(--sky); }
+.glance-col.gentle { border-top-color: var(--good); }
+.glance-head { padding-bottom: 10px; border-bottom: 1px solid var(--line); margin-bottom: 6px; }
+.glance-kid { padding: 10px 8px; border-radius: 8px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; border-bottom: 1px solid var(--line); }
+.glance-kid:last-child { border-bottom: 0; }
+.glance-kid:hover { background: var(--surface-2); }
+.gk-name { font-family: var(--font-display); font-weight: 700; font-size: 19px; text-transform: uppercase; letter-spacing: .02em; }
+.gk-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.gk-lbl { font-family: var(--font-display); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); width: 74px; }
+.gk-goal { font-size: 13px; font-style: italic; color: var(--ink-2); }
+
 /* Practice plan */
 .plan-block { display: grid; grid-template-columns: 64px 1fr; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); }
 .plan-block:first-child { border-top: 0; }

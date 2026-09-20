@@ -513,11 +513,15 @@
   /* ---------- Team ---------- */
   function renderTeam() {
     if (S.activePlayer && player(S.activePlayer)) return renderPlayerDetail(player(S.activePlayer));
-    return `
+    const tab = S.teamTab || "glance";
+    const head = `
       <div class="page-head">
-        <div><div class="eyebrow">Roster</div><h1>The team</h1><p class="sub">Tap a player to see how they want to be coached, what they asked to work on, and their personal plan.</p></div>
+        <div><div class="eyebrow">Roster</div><h1>The team</h1><p class="sub">${tab === "glance" ? "Every kid by how they want to be coached, with their top strength and the one thing they most want to get better at. Read it on the drive to practice." : "Tap a player to see how they want to be coached, what they asked to work on, and their personal plan."}</p></div>
         <div class="head-actions"><button class="btn" data-act="role" data-role="player">Open the player side</button></div>
       </div>
+      <div class="chips" style="margin-bottom:16px"><button class="chip" data-act="team-tab" data-tab="glance" aria-pressed="${tab === "glance"}">By coaching style</button><button class="chip" data-act="team-tab" data-tab="roster" aria-pressed="${tab === "roster"}">Full roster</button></div>`;
+    if (tab === "glance") return head + renderGlance();
+    return head + `
       <div class="roster">${S.players.map((p) => `
         <div class="card player-card ${p.intakeDone ? "" : "incomplete"}" data-act="open-player" data-id="${p.id}" role="button" tabindex="0">
           <div class="jersey num">${p.number}</div>
@@ -527,6 +531,26 @@
           </div>
         </div>`).join("")}
       </div>`;
+  }
+
+  function renderGlance() {
+    const styles = Object.values(D.MOTIVATION);
+    const noCard = S.players.filter((p) => !p.intakeDone);
+    const col = (m) => {
+      const kids = S.players.filter((p) => p.intakeDone && p.motivation === m.id);
+      return `<div class="glance-col ${m.id}">
+        <div class="glance-head"><div class="spread"><span class="pill ${m.id}">${esc(m.label)}</span><span class="num small muted">${kids.length}</span></div><p class="small mt">${esc(m.coach)}</p><p class="small mt"><b>Say:</b> ${esc(m.say[0])}</p></div>
+        ${kids.map((p) => `<div class="glance-kid" data-act="open-player" data-id="${p.id}" role="button" tabindex="0">
+          <div class="row between"><span class="gk-name"><span class="num muted">#${p.number}</span> ${esc(p.name)}</span><span class="small muted">age ${p.age}</span></div>
+          <div class="gk-row"><span class="gk-lbl">Strength</span>${p.strengths[0] ? `<span class="chip tiny good static">${esc(label(p.strengths[0]))}</span>` : '<span class="small muted">not set</span>'}</div>
+          <div class="gk-row"><span class="gk-lbl">Working on</span>${p.growth[0] ? `<span class="chip tiny warn static">${esc(label((p.offseasonFocus[0] || p.growth[0])))}</span>` : '<span class="small muted">not set</span>'}${p.offseasonFocus[0] ? '<span class="pill gold" style="font-size:10px">focus</span>' : ""}</div>
+          <div class="gk-goal">"${esc(p.goal)}"</div>
+        </div>`).join("") || '<p class="small muted" style="padding:8px 0">Nobody yet.</p>'}
+      </div>`;
+    };
+    return `<div class="glance">${styles.map(col).join("")}</div>
+      ${noCard.length ? `<div class="card mt" style="border-style:dashed"><div class="spread"><b>No player card yet:</b> ${noCard.map((p) => `<button class="chip" data-act="open-player" data-id="${p.id}">#${p.number} ${esc(p.name)}</button>`).join(" ")}<button class="btn sm" data-act="remind">Send a reminder</button></div><p class="small muted mt">Until they fill it out you are guessing. A card takes three minutes on the player side.</p></div>` : ""}
+      <p class="small muted mt">Tap a kid for the full card and their plan. The "Working on" chip is their coach focus when you have starred one, otherwise the first thing they picked.</p>`;
   }
 
   function renderPlayerDetail(p) {
@@ -886,6 +910,7 @@
       case "regen-lineup": S.lineup = generateLineup(); save(); render(); toast("New rotation"); break;
       case "learn-tab": if (t.dataset.tab === "age") progress("ageGuide"); set({ view: "learn", learnTab: t.dataset.tab, activePlayer: null, openCard: null }); window.scrollTo(0, 0); break;
       case "guide": set({ guideId: id }); break;
+      case "team-tab": set({ teamTab: t.dataset.tab }); break;
       case "drill-filter": set({ drillFilter: t.dataset.skill }); break;
       case "draft-toggle": { const k = t.dataset.key, v = t.dataset.val, max = +t.dataset.max; const arr = S.draft[k]; const i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else { if (arr.length >= max) { toast(`Pick up to ${max}`); return; } arr.push(v); } if (k === "prefer") S.draft.avoid = S.draft.avoid.filter((x) => x !== v); if (k === "avoid") S.draft.prefer = S.draft.prefer.filter((x) => x !== v); syncDraftText(); render(); break; }
       case "draft-set": S.draft[t.dataset.key] = t.dataset.val; syncDraftText(); render(); break;
@@ -914,5 +939,5 @@
   render();
   initAI();
   // Installable: register the service worker when served over http(s). The single-file artifact skips this.
-  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=6").catch(() => {}); } catch (e) { /* not available */ }
+  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=7").catch(() => {}); } catch (e) { /* not available */ }
 })();

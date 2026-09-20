@@ -1,6 +1,6 @@
 /* Coach HQ service worker: cache the shell so the app opens at the field with no signal. */
-const CACHE = "coachhq-v6";
-const ASSETS = ["./", "./index.html", "./styles.css?v=6", "./data.js?v=6", "./app.js?v=6", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
+const CACHE = "coachhq-v7";
+const ASSETS = ["./", "./index.html", "./styles.css?v=7", "./data.js?v=7", "./app.js?v=7", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", (e) => { e.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener("fetch", (e) => {
