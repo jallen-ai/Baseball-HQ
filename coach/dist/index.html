@@ -973,7 +973,8 @@ window.COACH_DATA = (function () {
     };
   }
   function freshCoach() {
-    return { onboarded: false, name: "", ageGroup: D.TEAM.ageGroup, teamLevel: "rec_mixed", experience: "first", worries: [], progress: {}, cardsRead: [] };
+    // Opens as the demo coach so a first look lands on a populated Home. "Redo setup" in the game plan runs the onboarding.
+    return { onboarded: true, name: "Coach Kurt", ageGroup: D.TEAM.ageGroup, teamLevel: "rec_mixed", experience: "first", worries: ["attention", "meltdowns", "parents"], progress: { onboard: true }, cardsRead: [] };
   }
   function normalizePlayer(p) {
     return Object.assign({ offseasonFocus: [], coachNote: "", log: {}, xp: 0 }, p);
@@ -1739,7 +1740,7 @@ window.COACH_DATA = (function () {
       <div class="eyebrow">Prototype</div><h2 class="mt">Coach HQ</h2>
       <p class="mt">You are <b>Coach Kurt</b> of the <b>Northbrook Spartans</b>, a 9-10U team with eleven kids. Nine of them have filled out their player card.</p>
       <p class="mt">Three things to try:</p>
-      <ol style="margin:8px 0 0 18px;padding:0;display:flex;flex-direction:column;gap:6px"><li><b>Practice:</b> the plan is already built from what the kids asked to work on. Swap a station, change the focus, share it.</li><li><b>Team:</b> open Jaylen or Caleb. See how they want to be coached, star an off-season focus.</li><li><b>Player:</b> switch to the player side (top right), pick Avery, fill out a card, then do a mission.</li><li><b>Learn:</b> open Skill demos for the throwing breakdown and video, or tap "Throwing breakdown" in your game plan.</li></ol>
+      <ol style="margin:8px 0 0 18px;padding:0;display:flex;flex-direction:column;gap:6px"><li><b>Practice:</b> the plan is already built from what the kids asked to work on. Swap a station, change the focus, share it.</li><li><b>Team:</b> open Jaylen or Caleb. See how they want to be coached, star an off-season focus.</li><li><b>Player:</b> switch to the player side (top right), pick Avery, fill out a card, then do a mission.</li><li><b>Learn:</b> open Skill demos for the throwing breakdown and video.</li><li><b>Coach setup:</b> tap "Redo setup" at the bottom of your game plan to see the onboarding a new coach gets.</li></ol>
       <p class="small muted mt">Everything is stored in this browser only. "About this prototype" (top right) has the MVP scope and roadmap.</p>
       <div class="row mt-lg" style="justify-content:flex-end"><button class="btn primary" data-act="close-modal">Let's go</button></div>
     </div></div>`;
@@ -1825,7 +1826,7 @@ window.COACH_DATA = (function () {
   render();
   initAI();
   // Installable: register the service worker when served over http(s). The single-file artifact skips this.
-  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js").catch(() => {}); } catch (e) { /* not available */ }
+  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=4").catch(() => {}); } catch (e) { /* not available */ }
 })();
 
 </script>
