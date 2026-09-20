@@ -18,7 +18,7 @@
       practice: null,
       lineup: null,
       role: "coach",
-      view: "home",
+      view: "landing",
       activePlayer: null,
       learnTab: "age",
       guideId: D.TEAM.ageGroup,
@@ -236,7 +236,7 @@
     app.innerHTML = `
       <div class="shell">
         <header class="topbar">
-          <div class="brand"><div class="brand-mark">HQ</div><div><div class="brand-name">Coach HQ</div><div class="brand-sub">Level Up Athletics</div></div></div>
+          <button class="brand" data-act="landing" aria-label="Coach HQ home"><div class="brand-mark">HQ</div><div><div class="brand-name">Coach HQ</div><div class="brand-sub">Level Up Athletics</div></div></button>
           <div class="team-chip"><b>${esc(S.team.name)}</b><span class="muted">·</span><span>${esc(guide().label)} ${esc(guide().ages)}</span></div>
           <div class="topbar-right">
             <div class="role-switch" role="group" aria-label="View as">
@@ -246,17 +246,47 @@
             <button class="link" data-act="roadmap">About</button>
           </div>
         </header>
-        <div class="body${isCoach && !S.coach.onboarded ? " solo" : ""}">
-          ${isCoach && !S.coach.onboarded ? "" : isCoach ? `<aside class="rail"><nav class="nav" aria-label="Sections">${NAV.map((n) => `<button data-act="nav" data-view="${n.id}" aria-current="${S.view === n.id ? "page" : "false"}"><span class="ico">${n.ico}</span>${n.label}</button>`).join("")}</nav>
+        <div class="body${S.view === "landing" || (isCoach && !S.coach.onboarded) ? " solo" : ""}">
+          ${S.view === "landing" || (isCoach && !S.coach.onboarded) ? "" : isCoach ? `<aside class="rail"><nav class="nav" aria-label="Sections">${NAV.map((n) => `<button data-act="nav" data-view="${n.id}" aria-current="${S.view === n.id ? "page" : "false"}"><span class="ico">${n.ico}</span>${n.label}</button>`).join("")}</nav>
             <div class="rail-foot"><b>${esc(coachLevel().cur.label)}</b> · ${coachDone()}/${D.COACH_ACTIONS.length} on the call-up path<br>${esc(S.team.coachName)} · ${esc(S.team.season)}<br>${S.players.length} players · ${S.players.filter((p) => p.intakeDone).length} player cards done<br><button class="link" style="color:inherit;background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;margin-top:6px" data-act="reset">Reset demo data</button></div></aside>` : `<aside class="rail"><div class="eyebrow" style="padding:0 12px 8px">Players</div><nav class="nav">${S.players.map((p) => `<button data-act="pick-player" data-id="${p.id}" aria-current="${S.activePlayer === p.id ? "page" : "false"}"><span class="ico num">${p.number}</span>${esc(p.name)}${p.intakeDone ? "" : ' <span class="pill line" style="margin-left:auto">new</span>'}</button>`).join("")}</nav></aside>`}
-          <main id="main">${isCoach ? (S.coach.onboarded ? renderCoach() : renderOnboarding()) : renderPlayerMode()}</main>
+          <main id="main"${S.view === "landing" ? ' class="landing-main"' : ""}>${S.view === "landing" ? renderLanding() : isCoach ? (S.coach.onboarded ? renderCoach() : renderOnboarding()) : renderPlayerMode()}</main>
         </div>
-        ${isCoach && S.coach.onboarded ? `<nav class="tabbar" aria-label="Sections">${NAV.map((n) => `<button data-act="nav" data-view="${n.id}" aria-current="${S.view === n.id ? "page" : "false"}"><span class="ico">${n.ico}</span>${n.label}</button>`).join("")}</nav>` : ""}
+        ${isCoach && S.coach.onboarded && S.view !== "landing" ? `<nav class="tabbar" aria-label="Sections">${NAV.map((n) => `<button data-act="nav" data-view="${n.id}" aria-current="${S.view === n.id ? "page" : "false"}"><span class="ico">${n.ico}</span>${n.label}</button>`).join("")}</nav>` : ""}
       </div>
       <div id="modal-root"></div>
       <div id="toast-root"></div>`;
-    if (!S.welcomed && S.coach.onboarded) openWelcome();
     startAnimations();
+  }
+
+  /* ---------- Landing page ---------- */
+  function renderLanding() {
+    const g = guide();
+    const done = S.players.filter((p) => p.intakeDone).length;
+    return `<div class="landing">
+      <section class="hero">
+        <div class="eyebrow" style="color:rgba(243,236,220,.7)">Level Up Athletics · for coaches</div>
+        <h1>Train the coach.<br>Level up the team.</h1>
+        <p>Practices built for your kids' ages and what they asked to work on. A plan for every player. A lineup nobody argues about. Coaching help in the moment, not a course.</p>
+        <div class="row mt"><span class="chip gold static">${esc(S.team.name)}</span><span class="chip static" style="border-color:rgba(255,255,255,.3);color:inherit">${esc(g.label)} · ages ${esc(g.ages)}</span><span class="chip static" style="border-color:rgba(255,255,255,.3);color:inherit">${done} of ${S.players.length} player cards in</span></div>
+      </section>
+      <div class="eyebrow" style="text-align:center;margin:22px 0 10px">Choose your path</div>
+      <div class="paths">
+        <button class="path" data-act="path" data-path="coach">
+          <div class="path-ico">◷</div><h3>Coach</h3><p>Your game plan, this week's practice, every kid's card, game day lineup.</p><span class="go">Enter Coach HQ →</span>
+        </button>
+        <button class="path" data-act="path" data-path="player">
+          <div class="path-ico">★</div><h3>Player</h3><p>Fill out your card, get your own plan, do missions at home and earn XP.</p><span class="go">Enter Player side →</span>
+        </button>
+        <button class="path" data-act="path" data-path="learn">
+          <div class="path-ico">▶</div><h3>Learn</h3><p>Age guides, the playbook, the drill library, and the throwing breakdown with video.</p><span class="go">Enter Coach's corner →</span>
+        </button>
+      </div>
+      <div class="card mt-lg landing-note">
+        <div class="spread"><h3>This is a prototype</h3><button class="btn sm" data-act="roadmap">Scope and roadmap</button></div>
+        <p class="small mt">You are <b>${esc(S.team.coachName)}</b> of the <b>${esc(S.team.name)}</b>, a ${esc(g.ages)} year old rec team of ${S.players.length}. Everything you change stays on this device. The logo at the top always brings you back here.</p>
+        <ul class="list mt small"><li><b>Coach:</b> the practice is already built from what the kids asked for. Swap a station, share it, then open Jaylen or Caleb on the Team tab.</li><li><b>Player:</b> pick Avery, fill out a card, then log a mission.</li><li><b>Learn:</b> Skill demos has the throwing breakdown. "Redo setup" in the coach game plan shows the onboarding a new coach gets.</li></ul>
+      </div>
+    </div>`;
   }
 
   /* ---------- Coach onboarding ---------- */
@@ -822,8 +852,10 @@
     const id = t.dataset.id;
     switch (act) {
       case "nav": set({ view: t.dataset.view, activePlayer: null }); window.scrollTo(0, 0); break;
-      case "role": set({ role: t.dataset.role, activePlayer: null, playerEditing: false, view: t.dataset.role === "coach" ? S.view : S.view }); window.scrollTo(0, 0); break;
+      case "role": set({ role: t.dataset.role, activePlayer: null, playerEditing: false, view: S.view === "landing" ? "home" : S.view }); window.scrollTo(0, 0); break;
       case "roadmap": openRoadmap(); break;
+      case "landing": set({ view: "landing", activePlayer: null }); window.scrollTo(0, 0); break;
+      case "path": { const pth = t.dataset.path; if (pth === "player") set({ role: "player", view: "home", activePlayer: null, playerEditing: false, draft: null }); else if (pth === "learn") set({ role: "coach", view: "learn", learnTab: "video", activePlayer: null }); else set({ role: "coach", view: "home", activePlayer: null }); window.scrollTo(0, 0); break; }
       case "close-modal": if (!S.welcomed && S.coach.onboarded) { S.welcomed = true; save(); } $("#modal-root").innerHTML = ""; DEMO.fixed = null; startAnimations(); break;
       case "ob-set": syncOb(); S.obDraft[t.dataset.key] = t.dataset.val; render(); break;
       case "ob-toggle": { syncOb(); const arr = S.obDraft.worries; const v = t.dataset.val; const i = arr.indexOf(v); if (i >= 0) arr.splice(i, 1); else { if (arr.length >= 3) { toast("Pick up to 3"); return; } arr.push(v); } render(); break; }
@@ -834,7 +866,7 @@
       case "demo-open": progress("video"); openSkillDemo(t.dataset.skill); break;
       case "demo-phase": DEMO.fixed = +t.dataset.i; document.querySelectorAll(".phases .phase").forEach((b) => { b.setAttribute("aria-pressed", b.dataset.i != null && +b.dataset.i === DEMO.fixed); b.classList.remove("live"); }); document.querySelectorAll(".demo-caption").forEach((el) => { el.innerHTML = demoCaption(D.SKILL_DEMOS.thr_mech, DEMO.fixed); }); break;
       case "demo-auto": DEMO.fixed = null; document.querySelectorAll(".phases .phase").forEach((b) => { b.setAttribute("aria-pressed", b.dataset.i == null); }); break;
-      case "reset": if (confirm("Reset the demo to its starting data?")) { try { localStorage.removeItem(STORE_KEY); } catch (x) {} S = freshState(); S.practice = generatePractice({}); S.lineup = generateLineup(); save(); $("#modal-root").innerHTML = ""; render(); toast("Demo reset"); } break;
+      case "reset": if (confirm("Reset the demo to its starting data?")) { try { localStorage.removeItem(STORE_KEY); } catch (x) {} S = freshState(); S.practice = generatePractice({}); S.lineup = generateLineup(); save(); $("#modal-root").innerHTML = ""; render(); window.scrollTo(0, 0); toast("Demo reset"); } break;
       case "mode": S.team.mode = S.team.mode === "offseason" ? "inseason" : "offseason"; S.practice = generatePractice({ reset: true, seed: S.practice.seed }); save(); render(); toast(S.team.mode === "offseason" ? "Off-season mode: kids' goals and your focus picks drive the plan" : "In-season mode"); break;
       case "remind": S.posts.push({ id: uid(), from: S.team.coachName, role: "coach", when: now(), text: `Reminder: ${S.players.filter((p) => !p.intakeDone).map((p) => p.name).join(" and ")} still need to fill out the player card. Three minutes, and it shapes what we do Tuesday.`, attachment: { label: "Player card link" } }); save(); render(); toast("Reminder posted to the team feed"); break;
       case "focus-compose": { const c = $("#compose"); if (c) c.focus(); break; }
@@ -882,5 +914,5 @@
   render();
   initAI();
   // Installable: register the service worker when served over http(s). The single-file artifact skips this.
-  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=4").catch(() => {}); } catch (e) { /* not available */ }
+  try { if ("serviceWorker" in navigator && /^https?:/.test(location.protocol) && !window.claude) navigator.serviceWorker.register("sw.js?v=5").catch(() => {}); } catch (e) { /* not available */ }
 })();
